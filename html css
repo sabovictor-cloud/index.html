@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Korede ❤️</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+    h1 {
+      color: #ff4d6d;
+    }
+    button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      margin: 8px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #e63e5c;
+    }
+    .small {
+      font-size: 13px;
+      color: #777;
+      margin-top: 10px;
+    }
+
+    .final {
+      font-size: 36px;
+      font-weight: bold;
+      color: #ff0055;
+      text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff99aa;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      animation: fall 3s linear infinite;
+      top: -10px;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1 id="title">Hey Korede 😄</h1>
+  <p id="question">Are you ready for some funny questions?</p>
+  <div id="options"></div>
+  <p class="small" id="note"></p>
+</div>
+
+<script>
+  const questions = [
+    {
+      q: "If I bring you food at 12am, what are you doing?",
+      options: ["Calling the police", "Marrying me immediately", "Waking up confused", "Asking what food it is"],
+      reactions: ["Ahhh you are wicked 😭","Wow calm down 😳😂","That's fair honestly 😄","Food first, love later 😌"]
+    },
+    {
+      q: "Pick one:",
+      options: ["Free food forever", "Free money forever", "Free hugs from me"],
+      reactions: ["Valid choice 😄","I see you like financial peace 😂","Awww that’s sweet 🥹"]
+    },
+    {
+      q: "Be honest... do you like this page?",
+      options: ["Yes, it's cute", "It's funny", "It's weird but okay", "Who sent you??"],
+      reactions: ["That makes me happy 😄","Glad you laughed 😂","We move regardless 😌","It's me oo 😭"]
+    },
+    {
+      q: "If we were stuck in an elevator together, what would we do?",
+      options: ["Panic", "Become besties", "Tell life stories", "Fall in love 😳"],
+      reactions: ["Understandable 😭","That’s cute 😄","Deep conversations unlocked 😌","Movie behavior 😳😂"]
+    },
+    {
+      q: "Choose a weekend plan:",
+      options: ["Netflix & chill", "Road trip", "Sleep all day", "Random adventure"],
+      reactions: ["Classic 😄","Main character energy 😌","Honestly same 😂","Chaos but fun 😭"]
+    },
+    {
+      q: "What annoys you the most?",
+      options: ["Slow replies", "Loud chewing", "Bad WiFi", "Fake people"],
+      reactions: ["That hurts 😭","I understand that one 😄","The real enemy 😤","Facts only 😌"]
+    },
+    {
+      q: "If I steal your fries, what happens?",
+      options: ["You fight me", "You forgive me", "You order more", "You cry inside"],
+      reactions: ["Violence is not the answer 😭","You're kind 🥹","Smart solution 😌","That’s tragic 😭😂"]
+    },
+    {
+      q: "Pick a superpower:",
+      options: ["Read minds", "Teleport", "Be invisible", "Pause time"],
+      reactions: ["That’s dangerous 😳","Very useful 😄","Suspicious choice 😭","Elite choice 😌"]
+    },
+    {
+      q: "How would you rate my effort?",
+      options: ["10/10", "It's cute", "Try harder", "Why am I here?"],
+      reactions: ["I appreciate you 😭❤️","That’s enough for me 😄","I will improve 😌","Fair question 😭"]
+    },
+    {
+      q: "If I asked you out for ice cream, what would you say?",
+      options: ["Yes 😄", "Maybe", "Only if it's chocolate", "Who are you again?"],
+      reactions: ["Let's gooo 😄🍦","I accept that 😌","Valid condition 😂","Pain 😭"]
+    },
+    {
+      q: "Last one 😌 — how would you describe me?",
+      options: ["Sweet", "Funny", "Annoying but cute", "All of the above"],
+      reactions: ["That means a lot 🥹","Glad I made you laugh 😄","I'll take it 😭","I accept my destiny 😌"]
+    }
+  ];
+
+  let current = 0;
+
+  function launchConfetti() {
+    for (let i = 0; i < 120; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      c.style.animationDuration = (2 + Math.random() * 3) + "s";
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }
+  }
+
+  function loadQuestion() {
+    const q = questions[current];
+    document.getElementById("question").textContent = q.q;
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    document.getElementById("note").textContent = "";
+
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement("button");
+      btn.textContent = opt;
+      btn.onclick = () => selectOption(i);
+      optionsDiv.appendChild(btn);
+    });
+  }
+
+  function selectOption(index) {
+    document.getElementById("note").textContent = questions[current].reactions[index];
+
+    setTimeout(() => {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("title").innerHTML = "<div class='final'>DANGEROUS<br>YORUBA BADDIE 😈🔥</div>";
+        document.getElementById("question").textContent = "Vibe check passed successfully 😌";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("note").textContent = "— From Victor 😏";
+        launchConfetti();
+        document.body.style.background = "linear-gradient(135deg, #000000, #330011)";
+      }
+    }, 1200);
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
